@@ -40,7 +40,7 @@ Dado un árbol B+ de orden `m`:
 
 ## Nuestro caso: t = 2
 
-Trabajamos con un árbol B+ de `t = 2`, lo que equivale a un orden `m = 4`.
+Trabajamos con un árbol B+ de `t = 2`, lo que equivale a un orden `m = 4` (relación general: `m = 2t`).
 
 | Parámetro | Valor |
 |-----------|-------|
@@ -164,7 +164,7 @@ Como `/lib` también está entre `/home` y `/usr`, se va a la hoja `[/home, /opt
 2. **Hoja derecha:** `[/opt, /tmp]`
 3. Se promociona `/opt`.
 
-El padre `[/home, /usr]` recibe `/opt` y queda `[/home, /opt, /usr]` (3 claves, 4 hijos). El máximo es 3, por lo que **el padre no se desborda**.
+El padre `[/home, /usr]` recibe `/opt` y queda `[/home, /opt, /usr]` (3 claves, 4 hijos), que es exactamente el máximo permitido (`m − 1 = 3` claves, `m = 4` hijos). **El padre no se desborda.**
 
 
 <p align="center">
@@ -311,7 +311,8 @@ Se actualiza el separador correspondiente en el padre: el separador `/opt` (entr
 Se busca `/tmp` en la última hoja. Al eliminarlo, la hoja queda **vacía → subdesborde**.
 
 **Paso 1 — Préstamo:**
-- Se mira a la hermana izquierda `[/home, /lib]`. Tiene **2 claves**; si presta una se quedaría en el mínimo (1). Se decide **fusionar** para compactar el árbol.
+- Se mira a la hermana izquierda `[/home, /lib]`. Tiene **2 claves**; si presta una se quedaría en el mínimo (1), lo cual sigue siendo válido.
+- En esta implementación se aplica la política de **fusionar siempre que sea posible**, priorizando la compactación del árbol sobre el préstamo.
 
 **Paso 2 — Fusión:**
 - Se fusiona la hoja vacía con su hermana izquierda `[/home, /lib]`.
